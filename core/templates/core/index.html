@@ -1,0 +1,52 @@
+{% extends 'core/base.html' %}
+
+{% block content %}
+  <div class="container border p-2 col-4 mx-auto">
+    <form action="" method="post" enctype="multipart/form-data">
+      <h2 class="text-center">Add Task</h2>
+      {% csrf_token %}
+      <div class="mb-3">
+        <label for="exampleInputEmail1" class="form-label">Task Name</label>
+        <input type="text" class="form-control"  name="task_name"/>
+      </div>
+      <div class="mb-3">
+        <label for="exampleInputEmail1"  class="form-label">Task Description</label>
+        <input type="text" class="form-control" name="task_desc"/>
+      </div>
+      <div class="mb-3">
+        <label for="exampleInputEmail1" class="form-label">Image</label>
+        <input type="file" class="form-control"  name="task_img"/>
+      </div>
+      <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+  </div>
+
+<div class="container my-4">
+  <table class="table table-light table-striped">
+    <thead>
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">Task Name</th>
+        <th scope="col">Task Description</th>
+        <th scope="col">Image</th>
+        <th scope="col">Action</th>
+
+      </tr>
+    </thead>
+    <tbody>
+      {% for task in todo %}
+      <tr>
+        <th scope="row">{{forloop.counter}}</th>
+        <td>{{task.name}}</td>
+        <td>{{task.desc}}</td>
+        <td>
+          <img src="media/{{task.img}}" alt="{{task.name}} " style="height: 50px;">
+        </td>
+        <td><a href="{% url "delete_task" task.id %}" class="btn btn-danger">Delete</a> 
+            <a href="{% url "update_task" task.id %}" class="btn btn-info">Update</a></td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endblock %}
